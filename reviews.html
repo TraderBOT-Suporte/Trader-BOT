@@ -6,7 +6,7 @@
     <title>Trader BOT · Avaliações</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="img/logo_bot (2).png">
+		  <link rel="icon" type="imgage/png" href="img/logo_bot (2).png">
     <link href="fontawesome/css/all.min.css" rel="stylesheet">
     <link href="css/templatemo-diagoona.css" rel="stylesheet">
     <style>
@@ -257,13 +257,20 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.backstretch.min.js"></script>
 <script src="js/templatemo-script.js"></script>
-<script src="js/config.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 <script>
-    // ===== INICIALIZAÇÃO DO FIREBASE COM CONFIG DO ARQUIVO EXTERNO =====
-    // O firebaseConfig já está definido no arquivo js/config.js
+    // ===== CONFIGURAÇÃO DO FIREBASE =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyCIR3bs71W2zrKHn1xL6atAVoFvOYUheh8",
+        authDomain: "trader-bot-58966.firebaseapp.com",
+        projectId: "trader-bot-58966",
+        storageBucket: "trader-bot-58966.firebasestorage.app",
+        messagingSenderId: "694501488577",
+        appId: "1:694501488577:web:6456e9918d0305a742a140"
+    };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     
