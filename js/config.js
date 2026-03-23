@@ -1,9 +1,9 @@
-// js/config.js
+// js/config.local.js (NÃO enviar para o GitHub)
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID
+    apiKey: "AIzaSyCIR3bs71W2zrKHn1xL6atAVoFvOYUheh8",
+    authDomain: "trader-bot-58966.firebaseapp.com",
+    projectId: "trader-bot-58966",
+    storageBucket: "trader-bot-58966.firebasestorage.app",
+    messagingSenderId: "694501488577",
+    appId: "1:694501488577:web:6456e9918d0305a742a140"
 };
