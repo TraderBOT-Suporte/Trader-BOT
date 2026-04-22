@@ -37,8 +37,6 @@ p { line-height: 1.9; }
     color: white;    
 }
 
-
-
 .navbar-expand-lg {
     padding-left: 0;
     padding-right: 0;
@@ -349,4 +347,48 @@ textarea {
     .tm-service-text { margin-top: 20px; }
     .tm-service-img { margin-right: 0; }
     .tm-service-img-r { margin-left: 0; }
+}
+
+/* =============================================
+   CORREÇÕES PARA SOBREPOSIÇÃO DO MENU MOBILE
+   ============================================= */
+
+/* Garante que o menu fixo (hambúrguer) fique acima de todo o conteúdo */
+#tm-main-nav {
+    z-index: 1030 !important;
+}
+
+/* O botão hambúrguer também precisa de um z-index elevado */
+.navbar-toggler {
+    position: relative;
+    z-index: 1031 !important;
+}
+
+/* O menu colapsado (quando aberto) também deve ficar sobreposto */
+.navbar-collapse {
+    position: relative;
+    z-index: 1030 !important;
+}
+
+/* Ajustes adicionais para telas muito pequenas (telefones) */
+@media (max-width: 576px) {
+    .tm-col-left,
+    .tm-col-right {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    
+    .tm-content {
+        margin-top: 20px !important;
+    }
+    
+    .tm-site-footer {
+        padding-top: 20px !important;
+    }
+    
+    /* Ajusta posição do menu para não colar na borda */
+    #tm-main-nav {
+        top: 20px !important;
+        right: 20px !important;
+    }
 }
