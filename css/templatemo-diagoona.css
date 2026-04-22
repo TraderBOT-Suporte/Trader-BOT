@@ -8,8 +8,8 @@ https://templatemo.com/tm-550-diagoona
 
 body {
     font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 280;
+    font-size: 17px;
+    font-weight: 300;
     overflow-x: hidden;
     color: white;
     background-color: #2C353C;
@@ -182,8 +182,8 @@ hr { border-top: 1px solid white; }
 }
 
 .tm-site-footer {
-    padding: 40px 0 20px;
-    max-width: 660px;
+    padding: 40px 16px 16px;
+    max-width: 400px;
     font-size: 0.95rem;
 }
 
