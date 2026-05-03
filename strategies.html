@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="img/Slide1 LOGO.png">
     <link href="fontawesome/css/all.min.css" rel="stylesheet">
     <link href="css/templatemo-diagoona.css" rel="stylesheet">
-    <style>
+    <link href="css/responsive.css" rel="stylesheet">
         /* ===== ESTILOS ADICIONAIS ===== */
         :root { --accent-color: #9CC; --text-primary: rgba(255,255,255,0.9); --text-secondary: rgba(255,255,255,0.7); --bg-modal: #1e2a3a; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
@@ -185,7 +185,7 @@
                     <div class="collapse navbar-collapse tm-nav" id="navbar-nav">
                         <ul class="navbar-nav text-uppercase">
                             <li class="nav-item"><a class="nav-link tm-nav-link" href="/">Home</a></li>
-                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/strategies">Strategies</a></li>
+                            <li class="nav-item active"><a class="nav-link tm-nav-link" href="/strategies">Strategies</a></li>
                             <li class="nav-item"><a class="nav-link tm-nav-link" href="/reviews">Reviews</a></li>
                             <li class="nav-item"><a class="nav-link tm-nav-link" href="/download">Download</a></li>
                             <li class="nav-item"><a class="nav-link tm-nav-link" href="/contact">Contact</a></li>
@@ -204,10 +204,10 @@
                         <p class="mb-3">Quatro modos adaptados para diferentes estilos de trading.</p>
                         
                         <div class="strategy-filter">
-                            <span class="filter-chip active" onclick="filterStrategies('all')">Todos</span>
-                            <span class="filter-chip" onclick="filterStrategies('scalping')"><i class="fas fa-bolt"></i> Scalping</span>
-                            <span class="filter-chip" onclick="filterStrategies('daytrade')"><i class="fas fa-bullseye"></i> Day Trade</span>
-                            <span class="filter-chip" onclick="filterStrategies('swing')"><i class="fas fa-calendar-alt"></i> Swing Trade</span>
+                            <span class="filter-chip active" onclick="filterStrategies('all', this)">Todos</span>
+                            <span class="filter-chip" onclick="filterStrategies('scalping', this)"><i class="fas fa-bolt"></i> Scalping</span>
+                            <span class="filter-chip" onclick="filterStrategies('daytrade', this)"><i class="fas fa-bullseye"></i> Day Trade</span>
+                            <span class="filter-chip" onclick="filterStrategies('swing', this)"><i class="fas fa-calendar-alt"></i> Swing Trade</span>
                         </div>
                         
                         <div class="cards-grid" id="strategiesGrid">
@@ -416,11 +416,11 @@
     
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     
-    function filterStrategies(category) { 
+    function filterStrategies(category, el) { 
         let cards = document.querySelectorAll('.card[data-category]'); 
         let chips = document.querySelectorAll('.filter-chip'); 
         chips.forEach(c => c.classList.remove('active')); 
-        event.target.classList.add('active'); 
+        if (el) el.classList.add('active');
         cards.forEach(card => { card.style.display = category==='all' || card.dataset.category===category ? 'block' : 'none'; }); 
     }
     
