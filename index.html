@@ -216,17 +216,49 @@
             </main>
         </div>
     </div>
-    <div class="tm-row">
-        <div class="tm-col-left text-center"><ul class="tm-bg-controls-wrapper"><li class="tm-bg-control active" data-id="0"></li><li class="tm-bg-control" data-id="1"></li><li class="tm-bg-control" data-id="2"></li></ul></div>
-        <div class="tm-col-right tm-col-footer">
-            <footer class="tm-site-footer text-right">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: left; margin-bottom: 1.5rem;">
-                    <div><h4 style="color: #9CC; font-size: 0.9rem;">Trader BOT</h4><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 0.3rem;"><a href="index.html" style="color: white; font-size: 0.8rem;">Início</a></li><li style="margin-bottom: 0.3rem;"><a href="reviews.html" style="color: white; font-size: 0.8rem;">Avaliações</a></li><li style="margin-bottom: 0.3rem;"><a href="download.html" style="color: white; font-size: 0.8rem;">Download</a></li><li style="margin-bottom: 0.3rem;"><a href="contact.html" style="color: white; font-size: 0.8rem;">Contato</a></li></ul></div>
-                    <div><h4 style="color: #9CC; font-size: 0.9rem;">Estratégias</h4><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('sniper')" style="color: white; cursor: pointer; font-size: 0.8rem;">SNIPER</a></li><li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('cacador')" style="color: white; cursor: pointer; font-size: 0.8rem;">CAÇADOR</a></li><li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('pescador')" style="color: white; cursor: pointer; font-size: 0.8rem;">PESCADOR</a></li><li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('swing')" style="color: white; cursor: pointer; font-size: 0.8rem;">Swing Trade</a></li></ul></div>
-                    <div><h4 style="color: #9CC; font-size: 0.9rem;">Legal</h4><ul style="list-style: none; padding-left: 0;"><li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('termos')" style="color: white; cursor: pointer; font-size: 0.8rem;">Termos</a></li><li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('privacidade')" style="color: white; cursor: pointer; font-size: 0.8rem;">Privacidade</a></li><li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('risco')" style="color: white; cursor: pointer; font-size: 0.8rem;">Risco</a></li></ul></div>
+   <div class="tm-row">
+    <div class="tm-col-left text-center">
+        <ul class="tm-bg-controls-wrapper">
+            <li class="tm-bg-control active" data-id="0"></li>
+            <li class="tm-bg-control" data-id="1"></li>
+            <li class="tm-bg-control" data-id="2"></li>
+        </ul>
+    </div>
+    <div class="tm-col-right tm-col-footer">
+        <footer class="tm-site-footer text-right">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: left; margin-bottom: 1.5rem;">
+                <div>
+                    <h4 style="color: #9CC; font-size: 0.9rem;">Trader BOT</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.3rem;"><a href="/" style="color: white; font-size: 0.8rem;">Início</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a href="/reviews" style="color: white; font-size: 0.8rem;">Avaliações</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a href="/download" style="color: white; font-size: 0.8rem;">Download</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a href="/contact" style="color: white; font-size: 0.8rem;">Contato</a></li>
+                    </ul>
                 </div>
-                <p class="mb-0" style="font-size: 0.75rem;">© 2026 Trader BOT Technologies · v2.10.0</p>
-            </footer>
+                <div>
+                    <h4 style="color: #9CC; font-size: 0.9rem;">Estratégias</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('sniper')" style="color: white; cursor: pointer; font-size: 0.8rem;">SNIPER</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('cacador')" style="color: white; cursor: pointer; font-size: 0.8rem;">CAÇADOR</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('pescador')" style="color: white; cursor: pointer; font-size: 0.8rem;">PESCADOR</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('swing')" style="color: white; cursor: pointer; font-size: 0.8rem;">Swing Trade</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #9CC; font-size: 0.9rem;">Legal</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('termos')" style="color: white; cursor: pointer; font-size: 0.8rem;">Termos</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('privacidade')" style="color: white; cursor: pointer; font-size: 0.8rem;">Privacidade</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('risco')" style="color: white; cursor: pointer; font-size: 0.8rem;">Risco</a></li>
+                        <li style="margin-bottom: 0.3rem;"><a href="/faq" style="color: white; font-size: 0.8rem;">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mb-0" style="font-size: 0.75rem;">© 2026 Trader BOT Technologies · v2.10.0</p>
+        </footer>
+    </div>
+</div>
         </div>
     </div>
     <div class="tm-bg"><div class="tm-bg-left"></div><div class="tm-bg-right"></div></div>
