@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Trader BOT · Download</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="fontawesome/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/Slide1 LOGO.png">
+    <link href="css/templatemo-diagoona.css" rel="stylesheet">
+    <style>
+        :root { --accent-color: #9CC; --text-primary: rgba(255,255,255,0.9); --text-secondary: rgba(255,255,255,0.7); --bg-dark: #1e2a3a; }
+        .btn-download { background: var(--accent-color); color: #000; border: none; padding: 0.8rem 0.5rem; border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; width: 100%; text-align: center; margin: 1rem 0; }
+        .btn-download:hover { background: #8bb; transform: translateY(-2px); }
+        .download-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+        .version-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 0.4rem 1.2rem; display: inline-block; margin-bottom: 1rem; font-size: 0.8rem; }
+        .file-info { display: flex; justify-content: space-around; margin: 1.5rem 0; flex-wrap: wrap; gap: 0.8rem; }
+        .info-item { text-align: center; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 10px; flex: 1; min-width: 100px; }
+        .info-item i { font-size: 1.5rem; color: var(--accent-color); margin-bottom: 0.3rem; }
+        .info-item div { font-size: 0.8rem; }
+
+        /* ========== MODAL DE DOWNLOAD ========== */
+        .download-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 3000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .download-modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .download-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 92%; max-width: 420px; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; z-index: 3001; opacity: 0; visibility: hidden; transition: all 0.3s ease; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6); font-family: 'Open Sans', Arial, sans-serif; color: white; }
+        .download-modal.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+
+        .download-modal-header { padding: 1.5rem 1.5rem 0; text-align: center; }
+        .download-modal-header h3 { color: #9CC; font-size: 1.3rem; margin: 0 0 0.5rem; font-weight: 600; }
+        .download-modal-header p { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin: 0 0 0.5rem; }
+        .download-modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: rgba(255,255,255,0.6); font-size: 1.2rem; cursor: pointer; transition: color 0.3s; }
+        .download-modal-close:hover { color: white; }
+
+        .download-modal-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .download-option { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 1.2rem; text-decoration: none; color: white; transition: all 0.3s ease; cursor: pointer; }
+        .download-option:hover { background: rgba(255,255,255,0.15); border-color: var(--accent-color); transform: translateY(-2px); }
+        .download-option-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .download-option-icon i { font-size: 2rem; color: var(--accent-color); }
+        .download-option-info { flex: 1; }
+        .download-option-info strong { display: block; font-size: 1rem; margin-bottom: 0.2rem; }
+        .download-option-info span { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+        .download-option-badge { background: var(--accent-color); color: #000; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.7rem; font-weight: bold; white-space: nowrap; }
+
+        /* ========== MODAL DE BREVEMENTE (iOS) ========== */
+        .coming-soon-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 4000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .coming-soon-modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .coming-soon-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 90%; max-width: 380px; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; z-index: 4001; opacity: 0; visibility: hidden; transition: all 0.3s ease; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.65); font-family: 'Open Sans', Arial, sans-serif; color: white; text-align: center; }
+        .coming-soon-modal.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+
+        .coming-soon-icon { font-size: 4rem; margin: 2rem 0 1rem; color: var(--accent-color); }
+        .coming-soon-title { font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+        .coming-soon-text { font-size: 0.95rem; color: rgba(255,255,255,0.75); padding: 0 1.5rem; line-height: 1.5; margin-bottom: 1.8rem; }
+        .coming-soon-btn { background: var(--accent-color); color: #000; border: none; padding: 0.7rem 2rem; border-radius: 30px; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-bottom: 2rem; transition: all 0.2s ease; }
+        .coming-soon-btn:hover { background: #8bb; transform: translateY(-1px); }
+
+        /* ========== TOAST DE SUCESSO (DOWNLOAD) ========== */
+        .toast-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 5000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .toast-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .success-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e2a3a;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 5001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: white;
+        }
+        .success-toast.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .success-icon {
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .success-message {
+            font-size: 1rem;
+        }
+
+        /* ===== RESPONSIVIDADE REFORÇADA ===== */
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            .btn-download { font-size: 0.9rem; padding: 0.6rem 0.5rem; }
+            .btn-download i { font-size: 0.9rem; }
+            .download-card h3 { font-size: 1.2rem; }
+            .version-badge { font-size: 0.7rem; }
+            .info-item i { font-size: 1.2rem; }
+            .info-item div { font-size: 0.7rem; }
+            .download-option-icon i { font-size: 1.5rem; }
+            .download-option-info strong { font-size: 0.9rem; }
+            .download-option-info span { font-size: 0.7rem; }
+            .modal-header h2 { font-size: 1rem; }
+            .modal-content h3 { font-size: 0.95rem; }
+        }
+        @media (max-width: 400px) {
+            body { font-size: 14px; }
+            .tm-sitename { font-size: 1.5rem; }
+            .tm-slogon { font-size: 0.7rem; }
+            .btn-download { font-size: 0.85rem; padding: 0.5rem 0.5rem; }
+            .download-option { padding: 0.8rem; }
+            .download-option-icon { width: 35px; height: 35px; }
+            .download-option-icon i { font-size: 1.2rem; }
+            .success-toast { padding: 0.6rem 1rem; }
+            .success-message { font-size: 0.8rem; }
+        }
+        .download-option:focus,
+        .download-option:active {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+            background: rgba(255,255,255,0.08) !important;
+        }
+    </style>
+</head>
+<body>
+<div class="tm-container">
+    <div>
+        <div class="tm-row pt-4">
+            <div class="tm-col-left">
+                <div class="tm-site-header media">
+                    <img src="img/Slide1 LOGO.png" alt="Trader BOT Logo" class="mt-1 tm-logo" style="width: 60px; height: 60px; object-fit: cover; margin-right: 24px;">
+                    <div class="media-body">
+                        <h1 class="tm-sitename text-uppercase">Trader BOT</h1>
+                        <p class="tm-slogon">trading profissional</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tm-col-right">
+                <nav class="navbar navbar-expand-lg" id="tm-main-nav">
+                    <button class="navbar-toggler toggler-example mr-0 ml-auto" type="button" data-toggle="collapse" data-target="#navbar-nav">
+                        <span><i class="fas fa-bars"></i></span>
+                    </button>
+                    <div class="collapse navbar-collapse tm-nav" id="navbar-nav">
+                        <ul class="navbar-nav text-uppercase">
+                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/">Home</a></li>
+                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/strategies">Strategies</a></li>
+                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/reviews">Reviews</a></li>
+                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/download">Download</a></li>
+                            <li class="nav-item active"><a class="nav-link tm-nav-link" href="/contact">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link tm-nav-link" href="/faq">FAQ</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="tm-row">
+            <div class="tm-col-left"></div>
+            <main class="tm-col-right">
+                <section class="tm-content">
+                    <div id="download">
+                        <h2 class="tm-content-title">Baixe o App</h2>
+                        <p class="mb-3">Versão mais recente do Trader BOT.</p>
+                        <div class="download-card">
+                            <div class="version-badge"><i class="fas fa-code-branch"></i> Versão 2.10.0</div>
+                            <h3><i class="fas fa-download"></i> Baixar Trader BOT</h3>
+                            <div class="file-info">
+                                <div class="info-item"><i class="fas fa-file-archive"></i><div>6 MB</div></div>
+                                <div class="info-item"><i class="fas fa-mobile-alt"></i><div>Android + iOS</div></div>
+                            </div>
+                            <div style="background:rgba(255,255,255,0.05);border-radius:8px;margin:1rem 0; text-align: center; padding: 0.5rem;">
+                                <p style="margin: 0;"><i class="fas fa-shield-alt"></i> APK assinado · Verificado · Hospedado no Dropbox</p>
+                            </div>
+                            <button class="btn-download" onclick="openDownloadModal()"><i class="fas fa-download"></i> BAIXAR AGORA</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <div class="tm-row">
+        <div class="tm-col-left text-center">
+            <ul class="tm-bg-controls-wrapper">
+                <li class="tm-bg-control active" data-id="0"></li>
+                <li class="tm-bg-control" data-id="1"></li>
+                <li class="tm-bg-control" data-id="2"></li>
+            </ul>
+        </div>
+        <div class="tm-col-right tm-col-footer">
+            <footer class="tm-site-footer text-right">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: left; margin-bottom: 1.5rem;">
+                    <div>
+                        <h4 style="color: #9CC; font-size: 0.9rem;">Trader BOT</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.3rem;"><a href="/" style="color: white; font-size: 0.8rem;">Início</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a href="/reviews" style="color: white; font-size: 0.8rem;">Avaliações</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a href="/download" style="color: white; font-size: 0.8rem;">Download</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a href="/contact" style="color: white; font-size: 0.8rem;">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #9CC; font-size: 0.9rem;">Estratégias</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('sniper')" style="color: white; cursor: pointer; font-size: 0.8rem;">SNIPER</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('cacador')" style="color: white; cursor: pointer; font-size: 0.8rem;">CAÇADOR</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('pescador')" style="color: white; cursor: pointer; font-size: 0.8rem;">PESCADOR</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openStrategyModal('swing')" style="color: white; cursor: pointer; font-size: 0.8rem;">Swing Trade</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #9CC; font-size: 0.9rem;">Legal</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('termos')" style="color: white; cursor: pointer; font-size: 0.8rem;">Termos</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('privacidade')" style="color: white; cursor: pointer; font-size: 0.8rem;">Privacidade</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a onclick="openLegalModal('risco')" style="color: white; cursor: pointer; font-size: 0.8rem;">Risco</a></li>
+                            <li style="margin-bottom: 0.3rem;"><a href="/faq" style="color: white; font-size: 0.8rem;">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mb-0" style="font-size: 0.75rem;">© 2026 Trader BOT Technologies · v2.10.0</p>
+            </footer>
+        </div>
+    </div>
+    <div class="tm-bg"><div class="tm-bg-left"></div><div class="tm-bg-right"></div></div>
+</div>
+
+<!-- ========== MODAL DE DOWNLOAD ========== -->
+<div class="download-modal-overlay" id="downloadModalOverlay" onclick="closeDownloadModal()"></div>
+<div class="download-modal" id="downloadModal">
+    <button class="download-modal-close" onclick="closeDownloadModal()"><i class="fas fa-times"></i></button>
+    <div class="download-modal-header">
+        <h3><i class="fas fa-download"></i> Escolhe a tua plataforma</h3>
+        <p>Seleciona o sistema operativo do teu dispositivo</p>
+    </div>
+    <div class="download-modal-body">
+        <!-- Android -->
+        <a href="https://www.dropbox.com/scl/fi/3wvcoqydslxsgi9kvx95y/app-release-1.apk?rlkey=rrufyrv2kkz6h5r097qof5f2y&st=6orm3hhb&dl=1" class="download-option" tabindex="-1" onclick="handleDownload(event, 'Android')">
+            <div class="download-option-icon"><i class="fab fa-android"></i></div>
+            <div class="download-option-info">
+                <strong>Android</strong>
+                <span>Versão 2.10.0 · Android 10+</span>
+            </div>
+            <div class="download-option-badge">APK</div>
+        </a>
+        <!-- iOS -->
+        <div class="download-option" tabindex="-1" onclick="showComingSoon()" style="cursor: pointer;">
+            <div class="download-option-icon"><i class="fab fa-apple"></i></div>
+            <div class="download-option-info">
+                <strong>iOS</strong>
+                <span>Disponível em breve · iOS 15+</span>
+            </div>
+            <div class="download-option-badge" style="background: #f39c12; color: #000;">EM BREVE</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODAL "EM BREVE" PARA iOS ========== -->
+<div class="coming-soon-modal-overlay" id="comingSoonOverlay" onclick="closeComingSoon()"></div>
+<div class="coming-soon-modal" id="comingSoonModal">
+    <div class="coming-soon-icon"><i class="fab fa-apple"></i></div>
+    <div class="coming-soon-title">Em breve no iPhone!</div>
+    <div class="coming-soon-text">
+        A versão para <strong>iOS</strong> estará disponível muito em breve.<br>
+        Fica atento às nossas redes sociais para seres o primeiro a saber!
+    </div>
+    <button class="coming-soon-btn" onclick="closeComingSoon()">Compreendo · Fechar</button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeAllModals()"></div>
+<div class="toast-overlay" id="toastOverlay"></div>
+<div class="success-toast" id="successToast">
+    <div class="success-icon">✓</div>
+    <div class="success-message"></div>
+</div>
+
+<div class="modal" id="modalSniper"><div class="modal-header"><h2><i class="fas fa-bolt"></i> SNIPER</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-bullseye"></i> Visão Geral</h3><p>Precisão cirúrgica para scalpers que buscam entradas rápidas e timing exato.</p><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">M1+M5+M15</div><div class="modal-stat-label">Timeframes</div></div><div class="modal-stat"><div class="modal-stat-value">M1</div><div class="modal-stat-label">Timing</div></div><div class="modal-stat"><div class="modal-stat-value">1-15min</div><div class="modal-stat-label">Duração</div></div></div><h3><i class="fas fa-chart-line"></i> Volatility (Scalping)</h3><ul><li>Entrada: SINAL VERDE + TIMING OK no M1</li><li>Valor: $5 por operação</li><li>Gain: +$2 (40%) | Stop: -$1 (20%)</li><li>Duração: 1-2 minutos</li><li>Operações/dia: 30-40</li></ul><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'sniper')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'sniper')">Próxima →</button></div></div></div>
+<div class="modal" id="modalCacador"><div class="modal-header"><h2><i class="fas fa-clock"></i> CAÇADOR</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-bullseye"></i> Visão Geral</h3><p>Captura ondas médias com entradas precisas e boa relação risco/retorno.</p><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">M5+M15+H1</div><div class="modal-stat-label">Timeframes</div></div><div class="modal-stat"><div class="modal-stat-value">M5</div><div class="modal-stat-label">Timing</div></div><div class="modal-stat"><div class="modal-stat-value">15-60min</div><div class="modal-stat-label">Duração</div></div></div><h3><i class="fas fa-chart-bar"></i> Day Trade - Sintéticos</h3><ul><li>Entrada: SINAL VERDE + TIMING OK no M5</li><li>Valor: $10 por operação</li><li>Gain: +$4 (40%) | Stop: -$2 (20%)</li><li>Duração: 15-60 minutos</li><li>Operações/dia: 15-25</li></ul><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'cacador')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'cacador')">Próxima →</button></div></div></div>
+<div class="modal" id="modalPescador"><div class="modal-header"><h2><i class="fas fa-fish"></i> PESCADOR</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-bullseye"></i> Visão Geral</h3><p>Identifica a tendência real do mercado e captura grandes movimentos.</p><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">M15+H1+H4</div><div class="modal-stat-label">Timeframes</div></div><div class="modal-stat"><div class="modal-stat-value">M15</div><div class="modal-stat-label">Timing</div></div><div class="modal-stat"><div class="modal-stat-value">Horas/Dias</div><div class="modal-stat-label">Duração</div></div></div><h3><i class="fas fa-sitemap"></i> Hierarquia dos Timeframes</h3><div class="hierarchy-tree"><span style="color: #9CC;">H4</span> → TENDÊNCIA REAL<br>&nbsp;&nbsp;├─► <span style="color: #9CC;">H1</span> → DIREÇÃO DO DIA<br>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─► M30 → CONFIRMAÇÃO<br>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─► <span style="color: #9CC;">M15</span> → TIMING</div><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'pescador')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'pescador')">Próxima →</button></div></div></div>
+<div class="modal" id="modalSwing"><div class="modal-header"><h2><i class="fas fa-calendar-alt"></i> SWING TRADE</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-calendar-week"></i> Swing - Sintéticos</h3><ul><li>Entrada: Dias 1, 10 e 20 do mês</li><li>Condição: App mostrando tendência forte</li><li>Valor total: $100 (escalonado)</li><li>Stop total: -$20 (20%) | Gain total: +$50 (50%)</li></ul><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">$100</div><div class="modal-stat-label">Investimento</div></div><div class="modal-stat"><div class="modal-stat-value">50%</div><div class="modal-stat-label">Retorno</div></div><div class="modal-stat"><div class="modal-stat-value">20%</div><div class="modal-stat-label">Stop</div></div></div><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'swing')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'swing')">Próxima →</button></div></div></div>
+<div class="modal" id="modalTermos"><div class="modal-header"><h2><i class="fas fa-file-contract"></i> Termos de Uso</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-check-circle"></i> Aceitação dos Termos</h3><p>Ao utilizar o Trader BOT, você concorda com estes termos.</p><h3><i class="fas fa-bullseye"></i> Uso do Aplicativo</h3><p>Ferramenta de análise técnica. Não garantimos lucros.</p></div></div>
+<div class="modal" id="modalPrivacidade"><div class="modal-header"><h2><i class="fas fa-lock"></i> Política de Privacidade</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-database"></i> Coleta de Dados</h3><p>Coletamos informações básicas para suporte.</p></div></div>
+<div class="modal" id="modalRisco"><div class="modal-header"><h2><i class="fas fa-exclamation-triangle" style="color: #ff4b4b;"></i> Aviso de Risco</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-exclamation-circle"></i> Risco de Perda</h3><p>Trading envolve risco substancial de perda. Nunca invista dinheiro que você não pode perder.</p></div></div>
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/templatemo-script.js"></script>
+<script>
+    const strategies = ['sniper','cacador','pescador','swing'];
+    
+    function openStrategyModal(strategy) { 
+        closeAllModals(); 
+        const modal = document.getElementById(`modal${strategy.charAt(0).toUpperCase() + strategy.slice(1)}`); 
+        if(modal){ 
+            modal.classList.add('active'); 
+            document.getElementById('modalOverlay').classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+            setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
+        } 
+    }
+    
+    function openLegalModal(type) { 
+        closeAllModals(); 
+        const modal = document.getElementById(`modal${type.charAt(0).toUpperCase() + type.slice(1)}`); 
+        if(modal){ 
+            modal.classList.add('active'); 
+            document.getElementById('modalOverlay').classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+            setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
+        } 
+    }
+    
+    function closeAllModals() { 
+        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); 
+        document.getElementById('modalOverlay').classList.remove('active'); 
+        document.body.style.overflow = ''; 
+        setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
+    }
+    
+    function navigateModal(direction, current) { 
+        let idx = strategies.indexOf(current); 
+        let newIdx = direction==='next' ? (idx+1)%strategies.length : (idx-1+strategies.length)%strategies.length; 
+        closeAllModals(); 
+        openStrategyModal(strategies[newIdx]); 
+    }
+
+    // ========== TOAST DE SUCESSO (DOWNLOAD) ==========
+    function showSuccessToast(message) {
+        const toast = document.getElementById('successToast');
+        const overlay = document.getElementById('toastOverlay');
+        const msgDiv = toast.querySelector('.success-message');
+        msgDiv.textContent = message || 'Download iniciado! O ficheiro será guardado no teu dispositivo.';
+        toast.classList.add('active');
+        overlay.classList.add('active');
+        setTimeout(() => {
+            toast.classList.remove('active');
+            overlay.classList.remove('active');
+        }, 2500);
+    }
+
+  // ========== DOWNLOAD MODAL ==========
+function openDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    const overlay = document.getElementById('downloadModalOverlay');
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Força recálculo do fundo em momentos progressivos
+    setTimeout(() => {
+        if (typeof setBgOverlay === 'function') setBgOverlay();
+        setTimeout(() => {
+            if (typeof setBgOverlay === 'function') setBgOverlay();
+        }, 200);
+    }, 50);
+}
+
+function closeDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    const overlay = document.getElementById('downloadModalOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    setTimeout(() => {
+        if (typeof setBgOverlay === 'function') setBgOverlay();
+        setTimeout(() => {
+            if (typeof setBgOverlay === 'function') setBgOverlay();
+        }, 200);
+    }, 50);
+}
+
+function handleDownload(event, platform) {
+    const el = event.currentTarget;
+    el.style.transform = 'scale(0.96)';
+    setTimeout(() => { el.style.transform = ''; }, 150);
+    if (platform === 'Android') {
+        showSuccessToast('Download iniciado! O ficheiro será guardado no teu dispositivo.');
+    }
+}
+    // ========== COMING SOON (iOS) ==========
+    function showComingSoon() {
+        closeDownloadModal();
+        setTimeout(() => {
+            document.getElementById('comingSoonModal').classList.add('active');
+            document.getElementById('comingSoonOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
+        }, 200);
+    }
+    
+    function closeComingSoon() {
+        document.getElementById('comingSoonModal').classList.remove('active');
+        document.getElementById('comingSoonOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeAllModals();
+            closeDownloadModal();
+            closeComingSoon();
+        }
+    });
+
+    $(document).ready(function(){
+        $('a[href^="#"]').on('click',function(e){
+            var target = $(this.getAttribute('href'));
+            if(target.length){
+                e.preventDefault();
+                $('html, body').stop().animate({ scrollTop: target.offset().top - 70 },800);
+            }
+        });
+        $(document).on('click',function(e){
+            if($(e.target).is('input, textarea, [contenteditable="true"]')) return;
+            if(document.activeElement && typeof document.activeElement.blur==='function')
+                setTimeout(()=>document.activeElement.blur(),50);
+        });
+    });
+</script>
+</body>
+</html>
