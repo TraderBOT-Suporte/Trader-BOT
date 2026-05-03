@@ -56,12 +56,71 @@
         .coming-soon-btn { background: var(--accent-color); color: #000; border: none; padding: 0.7rem 2rem; border-radius: 30px; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-bottom: 2rem; transition: all 0.2s ease; }
         .coming-soon-btn:hover { background: #8bb; transform: translateY(-1px); }
 
+        /* ========== TOAST DE SUCESSO (DOWNLOAD) ========== */
+        .toast-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 5000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .toast-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .success-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e2a3a;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 5001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: white;
+        }
+        .success-toast.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .success-icon {
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .success-message {
+            font-size: 1rem;
+        }
+
         @media (max-width: 380px) {
             .download-modal { width: 95%; max-width: 95%; }
             .download-option { padding: 1rem; }
             .download-option-icon { width: 40px; height: 40px; }
             .download-option-icon i { font-size: 1.5rem; }
             .coming-soon-modal { width: 92%; }
+            .success-toast { padding: 0.8rem 1.5rem; max-width: 90%; }
+            .success-message { font-size: 0.85rem; }
         }
         .download-option:focus,
         .download-option:active {
@@ -216,9 +275,13 @@
     <button class="coming-soon-btn" onclick="closeComingSoon()">Compreendo · Fechar</button>
 </div>
 
+<!-- Toast e overlays (o toast de sucesso foi implementado abaixo) -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeAllModals()"></div>
 <div class="toast-overlay" id="toastOverlay"></div>
-<div class="success-toast" id="successToast"><div class="success-icon">✓</div></div>
+<div class="success-toast" id="successToast">
+    <div class="success-icon">✓</div>
+    <div class="success-message"></div>
+</div>
 
 <div class="modal" id="modalSniper"><div class="modal-header"><h2><i class="fas fa-bolt"></i> SNIPER</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-bullseye"></i> Visão Geral</h3><p>Precisão cirúrgica para scalpers que buscam entradas rápidas e timing exato.</p><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">M1+M5+M15</div><div class="modal-stat-label">Timeframes</div></div><div class="modal-stat"><div class="modal-stat-value">M1</div><div class="modal-stat-label">Timing</div></div><div class="modal-stat"><div class="modal-stat-value">1-15min</div><div class="modal-stat-label">Duração</div></div></div><h3><i class="fas fa-chart-line"></i> Volatility (Scalping)</h3><ul><li>Entrada: SINAL VERDE + TIMING OK no M1</li><li>Valor: $5 por operação</li><li>Gain: +$2 (40%) | Stop: -$1 (20%)</li><li>Duração: 1-2 minutos</li><li>Operações/dia: 30-40</li></ul><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'sniper')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'sniper')">Próxima →</button></div></div></div>
 <div class="modal" id="modalCacador"><div class="modal-header"><h2><i class="fas fa-clock"></i> CAÇADOR</h2><button class="close-modal" onclick="closeAllModals()"><i class="fas fa-times"></i></button></div><div class="modal-content"><h3><i class="fas fa-bullseye"></i> Visão Geral</h3><p>Captura ondas médias com entradas precisas e boa relação risco/retorno.</p><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-value">M5+M15+H1</div><div class="modal-stat-label">Timeframes</div></div><div class="modal-stat"><div class="modal-stat-value">M5</div><div class="modal-stat-label">Timing</div></div><div class="modal-stat"><div class="modal-stat-value">15-60min</div><div class="modal-stat-label">Duração</div></div></div><h3><i class="fas fa-chart-bar"></i> Day Trade - Sintéticos</h3><ul><li>Entrada: SINAL VERDE + TIMING OK no M5</li><li>Valor: $10 por operação</li><li>Gain: +$4 (40%) | Stop: -$2 (20%)</li><li>Duração: 15-60 minutos</li><li>Operações/dia: 15-25</li></ul><div class="modal-nav"><button class="modal-nav-btn" onclick="navigateModal('prev', 'cacador')">← Anterior</button><button class="modal-nav-btn" onclick="navigateModal('next', 'cacador')">Próxima →</button></div></div></div>
@@ -239,6 +302,22 @@
     function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
     function navigateModal(direction, current) { let idx = strategies.indexOf(current); let newIdx = direction==='next' ? (idx+1)%strategies.length : (idx-1+strategies.length)%strategies.length; closeAllModals(); openStrategyModal(strategies[newIdx]); }
 
+    // ========== TOAST DE SUCESSO (DOWNLOAD) ==========
+    function showSuccessToast(message) {
+        const toast = document.getElementById('successToast');
+        const overlay = document.getElementById('toastOverlay');
+        const msgDiv = toast.querySelector('.success-message');
+        msgDiv.textContent = message || 'Download iniciado! O ficheiro será guardado no teu dispositivo.';
+        
+        toast.classList.add('active');
+        overlay.classList.add('active');
+        
+        setTimeout(() => {
+            toast.classList.remove('active');
+            overlay.classList.remove('active');
+        }, 2500);
+    }
+
     // ========== DOWNLOAD MODAL ==========
     function openDownloadModal() {
         document.getElementById('downloadModal').classList.add('active');
@@ -254,6 +333,10 @@
         const el = event.currentTarget;
         el.style.transform = 'scale(0.96)';
         setTimeout(() => { el.style.transform = ''; }, 150);
+        
+        if (platform === 'Android') {
+            showSuccessToast('Download iniciado! O ficheiro será guardado no teu dispositivo.');
+        }
     }
 
     // ========== COMING SOON (iOS) ==========
