@@ -374,7 +374,7 @@ textarea {
 @media (max-width: 576px) {
     .tm-col-left,
     .tm-col-right {
-        padding-left: 20px !important;
+        padding-left: 40px !important;
         padding-right: 20px !important;
     }
     
