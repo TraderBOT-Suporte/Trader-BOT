@@ -49,6 +49,21 @@ $(document).ready(function () {
         current.addClass('active');
     });
 
+    // Fechar menu mobile ao clicar fora
+$(document).on('click', function(event) {
+    var navbar = $('.navbar-collapse');
+    var toggler = $('.navbar-toggler');
+    
+    // Se o menu está visível e o clique não foi no botão nem dentro do menu, fecha
+    if (navbar.hasClass('show') && 
+        !navbar.is(event.target) && 
+        navbar.has(event.target).length === 0 && 
+        !toggler.is(event.target) && 
+        toggler.has(event.target).length === 0) {
+        navbar.collapse('hide');
+    }
+});
+
     $(window).resize(function() {
         setBgOverlay();
     });
