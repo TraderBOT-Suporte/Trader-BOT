@@ -417,13 +417,21 @@
     
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     
-    function filterStrategies(category) { 
-        let cards = document.querySelectorAll('.card[data-category]'); 
-        let chips = document.querySelectorAll('.filter-chip'); 
-        chips.forEach(c => c.classList.remove('active')); 
-        event.target.classList.add('active'); 
-        cards.forEach(card => { card.style.display = category==='all' || card.dataset.category===category ? 'block' : 'none'; }); 
-    }
+   function filterStrategies(category) {
+    let cards = document.querySelectorAll('.card[data-category]');
+    let chips = document.querySelectorAll('.filter-chip');
+    chips.forEach(chip => chip.classList.remove('active'));
+    // Marca o chip que corresponde à categoria
+    chips.forEach(chip => {
+        let chipCategory = chip.innerText.toLowerCase().includes('scalping') ? 'scalping' :
+                           chip.innerText.toLowerCase().includes('day') ? 'daytrade' :
+                           chip.innerText.toLowerCase().includes('swing') ? 'swing' : 'all';
+        if (chipCategory === category) chip.classList.add('active');
+    });
+    cards.forEach(card => {
+        card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
+    });
+}
     
     function showRulesTab(tab) { 
         document.querySelectorAll('.rules-panel').forEach(p => p.classList.remove('active')); 
