@@ -362,30 +362,46 @@
         }, 2500);
     }
 
-    // ========== DOWNLOAD MODAL ==========
-    function openDownloadModal() {
-        document.getElementById('downloadModal').classList.add('active');
-        document.getElementById('downloadModalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
-    }
+  // ========== DOWNLOAD MODAL ==========
+function openDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    const overlay = document.getElementById('downloadModalOverlay');
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
     
-    function closeDownloadModal() {
-        document.getElementById('downloadModal').classList.remove('active');
-        document.getElementById('downloadModalOverlay').classList.remove('active');
-        document.body.style.overflow = '';
-        setTimeout(() => { if (typeof setBgOverlay === 'function') setBgOverlay(); }, 50);
-    }
-    
-    function handleDownload(event, platform) {
-        const el = event.currentTarget;
-        el.style.transform = 'scale(0.96)';
-        setTimeout(() => { el.style.transform = ''; }, 150);
-        if (platform === 'Android') {
-            showSuccessToast('Download iniciado! O ficheiro será guardado no teu dispositivo.');
-        }
-    }
+    // Força recálculo do fundo em momentos progressivos
+    setTimeout(() => {
+        if (typeof setBgOverlay === 'function') setBgOverlay();
+        setTimeout(() => {
+            if (typeof setBgOverlay === 'function') setBgOverlay();
+        }, 200);
+    }, 50);
+}
 
+function closeDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    const overlay = document.getElementById('downloadModalOverlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    setTimeout(() => {
+        if (typeof setBgOverlay === 'function') setBgOverlay();
+        setTimeout(() => {
+            if (typeof setBgOverlay === 'function') setBgOverlay();
+        }, 200);
+    }, 50);
+}
+
+function handleDownload(event, platform) {
+    const el = event.currentTarget;
+    el.style.transform = 'scale(0.96)';
+    setTimeout(() => { el.style.transform = ''; }, 150);
+    if (platform === 'Android') {
+        showSuccessToast('Download iniciado! O ficheiro será guardado no teu dispositivo.');
+    }
+}
     // ========== COMING SOON (iOS) ==========
     function showComingSoon() {
         closeDownloadModal();
